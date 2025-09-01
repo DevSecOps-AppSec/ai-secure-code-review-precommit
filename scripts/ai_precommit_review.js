@@ -1,21 +1,27 @@
 #!/usr/bin/env node
 // AI Secure Review (pre-commit)
-// Mirrors your GitHub Action: uses prompt.txt, only reviews changed hunks.
-// No extra checks (no secret scan). Warn-only by default; PRECOMMIT_STRICT=1 blocks on High risk.
+// Uses prompt.txt, only reviews changed hunks.
+// Required env: OPENAI_API_KEY
+// Optional env: PRECOMMIT_STRICT (1 = block commit on High-risk findings)
 
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import fetch from "node-fetch";
 
+// 🔑 Required
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
-const OPENAI_BASE_URL = (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/+$/, "");
-const MODEL = process.env.MODEL || "gpt-4o-mini";
-const MAX_LINES = parseInt(process.env.MAX_LINES || "1200", 10);
+
+// ⚙️ Hardcoded defaults
+const OPENAI_BASE_URL = "https://api.openai.com/v1";
+const MODEL = "gpt-4o-mini";
+const MAX_LINES = 1200;
+
+// 🚦 Configurable strictness
 const STRICT = (process.env.PRECOMMIT_STRICT || "0") === "1";
 
-const RISKY_EXTS = (process.env.RISKY_EXTS ||
-  "js,ts,tsx,jsx,py,go,rb,php,java,kt,cs,rs,swift,c,cc,cpp,h,sql,sh,ps1,yml,yaml,json,html,htm,css,scss,vue,mdx")
+// Risky extensions (hardcoded)
+const RISKY_EXTS = "js,ts,tsx,jsx,py,go,rb,php,java,kt,cs,rs,swift,c,cc,cpp,h,sql,sh,ps1,yml,yaml,json,html,htm,css,scss,vue,mdx"
   .split(",").map(s => s.trim().toLowerCase());
 
 function risky(file) {
