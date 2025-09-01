@@ -12,7 +12,7 @@ It uses the same `prompt.txt` as your GitHub Action, so local and PR reviews sta
 - Summarizes **High/Medium/Low risks** with clear remediation.
 - **Warn-only by default** (commits go through even with findings).
 - **Strict mode** available → block commits if high-risk issues are detected.
-- Easy to configure with environment variables.
+- Only two environment variables are configurable for simplicity.
 
 ---
 
@@ -39,19 +39,16 @@ Now, the hook will run automatically on each commit.
 
 ---
 
-## 🔑 Model Credentials & Configuration
+## 🔑 Configuration
 
-Before committing, set the required environment variables:
-
+### Required
 ```bash
-# Required: your API key
 export OPENAI_API_KEY="sk-..."
+```
 
-# Optional overrides
-export OPENAI_BASE_URL="https://api.openai.com/v1"   # Default: OpenAI API
-export MODEL="gpt-4o-mini"                           # Default: gpt-4o-mini
-export MAX_LINES=1200                                # Max staged lines to send
-export PRECOMMIT_STRICT=1                            # Block commit on High-risk findings (default: warn only)
+### Optional
+```bash
+export PRECOMMIT_STRICT=1   # Block commit on High-risk findings (default: warn-only)
 ```
 
 👉 To persist, add them to `~/.bashrc`, `~/.zshrc`, or your shell profile.
@@ -114,10 +111,10 @@ git commit -m "Add new feature"
   → Make sure you exported your key (`export OPENAI_API_KEY=...`).
 
 - **API quota exceeded / 429**  
-  → Upgrade your API plan or use another base URL (`OPENAI_BASE_URL`).
+  → Upgrade your API plan or use another base URL (hardcoded to OpenAI default).
 
 - **Timeout**  
-  → Reduce `MAX_LINES` or set `TIMEOUT` (default ~40s).
+  → Reduce diff size or line counts (hardcoded MAX_LINES=1200).
 
 ---
 
