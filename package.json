@@ -1,0 +1,9 @@
+{
+  "name": "ai-secure-code-review-precommit",
+  "version": "1.0.0",
+  "description": "AI Secure Code Review pre-commit hook",
+  "type": "module",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
