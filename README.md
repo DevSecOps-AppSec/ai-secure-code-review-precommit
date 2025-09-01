@@ -1,7 +1,7 @@
 # 🔐 AI Secure Code Review Pre-commit Hook
 
 Runs an **AI-based secure code review** on **staged changes (changed hunks only)** during `git commit`.  
-It uses the same `prompt.txt` as your GitHub Action, so local and PR reviews stay **consistent**.
+It uses the same `prompt.txt` as [GitHub Action](https://github.com/DevSecOps-AppSec/ai-secure-code-review-action), so local and PR reviews stay **consistent**.
 
 ---
 
