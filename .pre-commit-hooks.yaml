@@ -1,0 +1,8 @@
+- id: ai-secure-review-staged
+  name: AI Secure Code Review (pre-commit, staged diffs only)
+  description: "Runs an AI-based secure code review on staged hunks using prompt.txt"
+  entry: scripts/ai_precommit_review.js
+  language: node
+  pass_filenames: false
+  additional_dependencies:
+    - node-fetch@3
